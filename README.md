@@ -43,6 +43,36 @@ DHCP_BASE = 'cn=group1,cn=INTERNAL,cn=DHCP Config,dc=instituto,dc=extremadura,dc
 
 **Importante**: Es necesario configurar `LDAP_PASSWORD` antes de ejecutar el script.
 
+## Copia de seguridad
+
+**IMPORTANTE**: Antes de ejecutar el script, es esencial realizar una copia de seguridad completa del directorio LDAP.
+
+Para crear una copia de seguridad del servidor LDAP:
+
+```bash
+# Conectar al servidor LDAP
+sudo slapcat -n 1 -l backup_ldap_$(date +%Y%m%d).ldif
+
+# Verificar la copia de seguridad
+ls -la backup_ldap_*.ldif
+```
+
+En caso de necesitar restaurar la copia de seguridad:
+
+```bash
+# Detener el servicio LDAP
+sudo systemctl stop slapd
+
+# Restaurar desde la copia de seguridad
+sudo slapadd -n 1 -l backup_ldap_YYYYMMDD.ldif
+
+# Corregir permisos
+sudo chown -R openldap:openldap /var/lib/ldap/
+
+# Reiniciar el servicio LDAP
+sudo systemctl start slapd
+```
+
 ## Uso
 
 Para ejecutar el script:
@@ -93,3 +123,13 @@ El script registra todas las operaciones con diferentes niveles de detalle:
 2023-11-10 10:15:27 - INFO - Proceso completado: 1 entradas actualizadas, 0 errores
 2023-11-10 10:15:27 - INFO - Desconexión LDAP realizada
 ```
+
+## Descargo de responsabilidad
+
+**AVISO**: Este script modifica entradas en el servidor LDAP y puede causar problemas en la configuración de red si se utiliza incorrectamente. El autor no se responsabiliza de los posibles daños que pueda causar el uso de este script en entornos de producción. Se recomienda encarecidamente:
+
+1. Realizar siempre copias de seguridad antes de ejecutar el script
+2. Probar primero en un entorno de desarrollo o prueba
+3. Revisar los logs generados para verificar las modificaciones realizadas
+
+El uso de este script implica la aceptación de estos términos y la responsabilidad de las consecuencias derivadas de su ejecución.
