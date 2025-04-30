@@ -39,6 +39,7 @@ LDAP_PASSWORD = ''  # Actualiza con tu contraseña
 LDAP_BASE_DN = 'dc=instituto,dc=extremadura,dc=es'
 HOSTS_BASE = 'ou=hosts,dc=instituto,dc=extremadura,dc=es'
 DHCP_BASE = 'cn=group1,cn=INTERNAL,cn=DHCP Config,dc=instituto,dc=extremadura,dc=es'
+DOMAIN = '' # Actualiza con el dominio de tu centro
 ```
 
 **Importante**: Es necesario configurar `LDAP_PASSWORD` antes de ejecutar el script.

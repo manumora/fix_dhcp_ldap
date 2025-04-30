@@ -15,6 +15,7 @@ LDAP_PASSWORD = ''  # Actualiza con tu contraseña
 LDAP_BASE_DN = 'dc=instituto,dc=extremadura,dc=es'
 HOSTS_BASE = 'ou=hosts,dc=instituto,dc=extremadura,dc=es'
 DHCP_BASE = 'cn=group1,cn=INTERNAL,cn=DHCP Config,dc=instituto,dc=extremadura,dc=es'
+DOMAIN = '' # Actualiza con el dominio de tu centro
 
 def connect_to_ldap():
     """Establece conexión con servidor LDAP"""
@@ -31,7 +32,7 @@ def get_hosts_info(conn):
     """Obtiene información de hosts desde LDAP"""
     hosts_info = []
 
-    base_dn = f"dc=santaeulalia,{HOSTS_BASE}"
+    base_dn = f"dc={DOMAIN},{HOSTS_BASE}"
     search_filter = "(objectclass=dNSDomain2)"
     attributes = ['dc', 'arecord', 'associateddomain']
 
